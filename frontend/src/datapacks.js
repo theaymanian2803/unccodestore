@@ -1,6 +1,6 @@
 const packs = [
   {
-    _id: 'p101',
+    _id: 'p1061',
     name: 'Tupac Shakur – Legacy Face Drop | Full PSD Access by Evanox',
     artist_name: 'Tupac Shakur',
     brand: 'Evanox Designs',
@@ -14,7 +14,7 @@ const packs = [
     image: '/images/p4.png',
   },
   {
-    _id: 'p102',
+    _id: 'p1023',
     name: 'Lil Baby – Street Classic Face Drop | Full PSD Access by Evanox',
     artist_name: 'Lil Baby',
     brand: 'Evanox Designs',
@@ -28,7 +28,7 @@ const packs = [
     image: '/images/p1.png',
   },
   {
-    _id: 'p103',
+    _id: 'p1034',
     name: '21 Savage – Icon Grin Face Drop | Full PSD Access by Evanox',
     artist_name: '21 Savage',
     brand: 'Evanox Designs',
@@ -42,7 +42,7 @@ const packs = [
     image: '/images/p2.png',
   },
   {
-    _id: 'p104',
+    _id: 'p1044',
     name: 'Kanye West – Electric Vision Face Drop | Full PSD Access by Evanox',
     artist_name: 'Kanye West',
     brand: 'Evanox Designs',

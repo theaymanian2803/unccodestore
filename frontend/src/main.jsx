@@ -7,6 +7,7 @@ import About from './screens/About'
 import Home from './screens/Home'
 import Store from './screens/Store'
 import NotFound from './screens/NotFound'
+import Product from './screens/Product'
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: '/store',
         element: <Store />,
+      },
+      {
+        path: '/product/:id',
+        element: <Product />,
       },
     ],
   },

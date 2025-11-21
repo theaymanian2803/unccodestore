@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Hero from './../components/Hero'
 import Grid from './../components/Grid'
-import productsFace from './../data'
-import packs from './../datapacks'
 
 function Home() {
   return (
@@ -14,12 +12,7 @@ function Home() {
         <h1 className="text-center font-bold text-4xl tracking-widest capitalize mt-5">
           legeneds never die
         </h1>
-        <Grid products={productsFace} />
-        <h1 className="text-center font-bold text-4xl tracking-widest capitalize mt-5">
-          packs of legends
-        </h1>
-
-        <Grid products={packs} />
+        <Grid />
       </div>
     </div>
   )
