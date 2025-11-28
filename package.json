@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/theaymanian2803/unccodestore#readme",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "mongoose": "^8.20.0"

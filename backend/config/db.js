@@ -9,7 +9,6 @@ const conncectDB = async () => {
     process.exit(1)
   }
 }
-
 export default conncectDB
 
 //

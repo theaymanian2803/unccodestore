@@ -1,6 +1,5 @@
 const data = [
   {
-    _id: 'p101',
     name: 'Tupac Shakur – Legacy Face Drop | Full PSD Access by Evanox',
     artist_name: 'Tupac Shakur',
     brand: 'Evanox Designs',
@@ -55,7 +54,6 @@ const data = [
     },
   },
   {
-    _id: 'p102',
     name: 'Lil Baby – Street Classic Face Drop | Full PSD Access by Evanox',
     artist_name: 'Lil Baby',
     brand: 'Evanox Designs',
@@ -110,7 +108,6 @@ const data = [
     },
   },
   {
-    _id: 'p103',
     name: '21 Savage – Icon Grin Face Drop | Full PSD Access by Evanox',
     artist_name: '21 Savage',
     brand: 'Evanox Designs',
@@ -165,7 +162,6 @@ const data = [
     },
   },
   {
-    _id: 'p104',
     name: 'Kanye West – Electric Vision Face Drop | Full PSD Access by Evanox',
     artist_name: 'Kanye West',
     brand: 'Evanox Designs',
