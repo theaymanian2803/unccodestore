@@ -59,7 +59,7 @@ const data = [
     brand: 'Evanox Designs',
     price: 29.99,
     instock: 'Limited (100 Licenses)',
-    countInStock: 100,
+    countInStock: 12,
     rating: 4.7,
     numReviews: 50,
     description:

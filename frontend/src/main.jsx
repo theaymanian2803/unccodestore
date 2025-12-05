@@ -8,7 +8,8 @@ import Home from './screens/Home'
 import Store from './screens/Store'
 import NotFound from './screens/NotFound'
 import Product from './screens/Product'
-
+import { Provider } from 'react-redux'
+import store from './store'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -37,6 +38,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </StrictMode>
 )

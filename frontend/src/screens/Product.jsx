@@ -1,37 +1,37 @@
-import React, { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import productsFace from './../data'
-import { X, ChevronLeft, ChevronRight } from 'lucide-react' // Import icons from lucide-react
+import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import Rating from './../components/Rating'
-import axios from 'axios'
+import { addToCart } from './../slices/cartSlice'
+import { useDispatch } from 'react-redux'
+import { useGetProductDetailsQuery } from './../slices/productSlice'
 
 function Product() {
   const { id } = useParams()
-  const [product, setProduct] = useState({})
-
+  const { data: product, isLoading, error } = useGetProductDetailsQuery(id)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [currentImage, setCurrentImage] = useState(null)
   const [isLightboxOpen, setIsLightBoxOpen] = useState(false)
   const [lightboxImageIndex, setLightboxImageIndex] = useState(0)
-  const [isLoading, setIsLoading] = useState(true)
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const { data } = await axios.get(`http://localhost:5000/api/products/${id}`)
-        setProduct(data)
-        setIsLoading(false)
-      } catch (error) {
-        console.error('Error fetching product:', error)
-        setIsLoading(false)
-      }
-    }
-    fetchProduct()
-  }, [id])
+  const [qty, setQty] = useState(1)
+  const addToCartHandler = () => {
+    // The 'qty' state here is already a Number due to the onChange handler
+    dispatch(addToCart({ ...product, qty }))
+    navigate('/cart')
+  }
 
   useEffect(() => {
     if (product && product.images && product.images.length > 0) {
       setCurrentImage(product.images[0])
     }
   }, [product])
+
+  // FIX 3: Reset quantity state when the product page changes
+  useEffect(() => {
+    setQty(1)
+  }, [id])
 
   const handleThumbnailClick = (imageSrc) => {
     setCurrentImage(imageSrc)
@@ -60,6 +60,9 @@ function Product() {
     return (
       <div className="min-h-screen flex justify-center items-center text-white">Loading...</div>
     )
+  }
+  if (error) {
+    return <div>error</div>
   }
 
   // Check if product data failed to load or is empty
@@ -99,7 +102,7 @@ function Product() {
                 onClick={() => handleThumbnailClick(imageSrc)}
               />
             ))}
-            {/* thumbnails images / images  end here*/}
+            {/* thumbnails images / images  end here*/}
           </div>
           {/* otherFeatures starts here*/}
 
@@ -107,7 +110,7 @@ function Product() {
             <div className=" grid grid-cols-2 gap-7 text-sm">
               {product.otherFeatures?.map((feature, index) => (
                 <div key={index}>
-                  <h3 className="text-lg font-bold mb-2 flex  items-center">
+                  <h3 className="text-lg font-bold mb-2 flex  items-center">
                     <span className="mr-2 text-yellow-500"> {feature.icon}</span>
                     {feature.title}
                   </h3>
@@ -148,9 +151,30 @@ function Product() {
             <Rating value={product.rating} text={product.reviewCount} />
             <span className="text-3xl font-extrabold text-yellow-500">{product.price}</span>
           </div>
+          <div>
+            {product.countInStock > 0 && (
+              <div className="flex gap-7  items-center">
+                <span className="text-orange-400 text-xl font-bold">In Stock</span>
+                <span className="text-orange-400 text-2xl">
+                  <select
+                    className="p-2 border-orange-500 rounded-2xl"
+                    value={qty}
+                    onChange={(e) => setQty(Number(e.target.value))}>
+                    {[...Array(product.countInStock).keys()].map((x) => (
+                      <option className="text-black bg-amber-100" key={x + 1} value={x + 1}>
+                        {x + 1}
+                      </option>
+                    ))}
+                  </select>
+                </span>
+              </div>
+            )}
+          </div>
 
           {/* Add to Bag Button */}
-          <button className="w-full py-4 bg-yellow-500 text-black font-extrabold uppercase text-lg hover:bg-yellow-400 transition duration-300 rounded-lg mb-10">
+          <button
+            onClick={addToCartHandler}
+            className="w-full py-4 mt-3 bg-yellow-500 text-black font-extrabold uppercase text-lg hover:bg-yellow-400 transition duration-300 rounded-lg mb-10 cursor-pointer">
             Add to Bag
           </button>
 

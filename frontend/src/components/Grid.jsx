@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react'
 import ProductGrid from './ProductGrid'
-import axios from 'axios'
+import { useGetProductsQuery } from './../slices/productSlice'
 
 function Grid() {
-  const [products, setProducts] = useState([])
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const { data } = await axios.get('http://localhost:5000/api/products')
-      setProducts(data)
-    }
-    fetchProducts()
-  }, [])
+  const { data: products, isLoading, error } = useGetProductsQuery()
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>
+  }
 
   return (
     <div className=" mt-8 p-7 grid grid-cols-4 gap-4">

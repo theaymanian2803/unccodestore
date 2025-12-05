@@ -4,6 +4,8 @@ import products from './data/data.js'
 import dotev from 'dotenv'
 import cors from 'cors'
 import conncectDB from './config/db.js'
+import productRouter from './routes/productsRoutes.js'
+import { notFound, errorHandler } from './middleware/errorHandler.js'
 
 conncectDB()
 const port = 5000
@@ -13,13 +15,11 @@ app.use(cors())
 app.get('/', (req, res) => {
   return res.send('Hello World this is node mone')
 })
-app.get('/api/products', (req, res) => {
-  return res.json(products)
-})
-app.get('/api/products/:id', (req, res) => {
-  const product = products.find((p) => p._id === req.params.id)
-  return res.json(product)
-})
+
+app.use('/api/products', productRouter)
+
+app.use(notFound)
+app.use(errorHandler)
 
 app.listen(port, () => {
   console.log(`nodemon is watching  on port ${port}`)
