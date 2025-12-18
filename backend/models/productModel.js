@@ -24,6 +24,7 @@ const ProductSchema = new mongoose.Schema(
     },
     artist_name: { type: String, required: true },
     brand: { type: String, required: true },
+    category: { type: String },
 
     price: { type: Number, required: true },
     instock: { type: String, required: true },

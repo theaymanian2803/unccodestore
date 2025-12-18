@@ -1,14 +1,32 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { User, ShoppingBag, Menu, X } from 'lucide-react'
-import { useSelector } from 'react-redux'
+
+import { Link, useNavigate } from 'react-router-dom'
+import { User, ShoppingBag, Menu, X, ChevronDown } from 'lucide-react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useLogoutMutation } from '../slices/userApiSlice'
+import { logout } from '../slices/authSlice'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { cartItems } = useSelector((state) => state.cart)
+  const { userInfo } = useSelector((state) => state.auth)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const toggleMenu = () => {
     setIsOpen(!isOpen)
+  }
+
+  const [logoutApiCall] = useLogoutMutation()
+  const logoutHandler = async () => {
+    try {
+      await logoutApiCall().unwrap()
+      dispatch(logout())
+      navigate('/')
+    } catch (error) {
+      console.log(error?.data?.message || error.message)
+    }
   }
   return (
     <nav className="sticky top-0 bg-black text-white px-5 md:px-10 py-3 flex justify-between items-center font-sans z-50">
@@ -40,10 +58,36 @@ const Navbar = () => {
         </li>
       </ul>
 
-      <div className="flex items-center space-x-6">
-        <User className="w-6 h-6 cursor-pointer hover:text-gray-400 transition-colors" />
+      <div onMouseLeave={() => setIsMenuOpen(false)} className="flex items-center space-x-6">
+        <span>
+          {userInfo ? (
+            <div className="p-1">
+              <span className="flex items-center space-x-1 cursor-pointer relative">
+                <h1 className="text-2xl uppercase font-semibold mb-1">{userInfo.name}</h1>
+                <ChevronDown onClick={() => setIsMenuOpen(!isMenuOpen)} />
+                {isMenuOpen && (
+                  <div className="absolute  top-9 flex flex-col justify-start items-start bg-white text-black w-[160px] h-[130px] ">
+                    <Link to="/profile" className=" p-2  text-xl capitalize">
+                      profile
+                    </Link>
+                    <button onClick={logoutHandler} className=" p-2 text-xl capitalize">
+                      logout
+                    </button>
+                    <Link to="/shipping" className=" p-2  text-xl capitalize">
+                      shipping
+                    </Link>
+                  </div>
+                )}
+              </span>
+            </div>
+          ) : (
+            <Link to="/login" className="p-1">
+              <User className="w-6 h-6 cursor-pointer hover:text-gray-400 transition-colors" />
+            </Link>
+          )}
+        </span>
 
-        <div className="relative ">
+        <Link to="/cart" className="relative ">
           <ShoppingBag className="w-8 h-8 cursor-pointer hover:text-gray-400 transition-colors" />
           {cartItems.length > 0 && (
             <span className="bg-orange-400 p-3 text-black font-bold text-xl w-7 h-7 rounded-full flex justify-center items-center absolute -top-4 -right-5">
@@ -51,7 +95,7 @@ const Navbar = () => {
               {cartItems.reduce((acc, item) => acc + Number(item.qty), 0)}
             </span>
           )}
-        </div>
+        </Link>
 
         <button onClick={toggleMenu}>
           {isOpen ? (

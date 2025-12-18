@@ -7,8 +7,9 @@ function Hero() {
         <h1 className="text-black text-4xl font-bold tracking-widest capitalize">
           the t-shirt design that build brands
         </h1>
-        <p className="text-black/80 mt-6  font-semibold tracking-normal">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab possimus
+        <p className="text-black/70 mt-6  font-semibold text-[18px] tracking-normal">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab possimus adipisicing elit. Ab
+          possimus
         </p>
       </div>
       <img src="/ex.png" alt="hero banner" className="w-[600px]" />

@@ -8,7 +8,15 @@ const addDecimals = (num) => {
 
 const initialState = localStorage.getItem('cart')
   ? JSON.parse(localStorage.getItem('cart'))
-  : { cartItems: [], itemsPrice: 0, shippingPrice: 0, taxPrice: 0, totalPrice: 0 }
+  : {
+      cartItems: [],
+      itemsPrice: 0,
+      shippingPrice: 0,
+      taxPrice: 0,
+      totalPrice: 0,
+      shippingAddress: {},
+      paymentMethod: 'Paypal',
+    }
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -32,7 +40,25 @@ const cartSlice = createSlice({
 
       return updateCart(state)
     },
+
+    removeItem(state, action) {
+      state.cartItems = state.cartItems.filter((x) => x._id !== action.payload)
+      return updateCart(state)
+    },
+    saveShippingAddress(state, action) {
+      state.shippingAddress = action.payload
+      return updateCart(state)
+    },
+    savePaymentMethod(state, action) {
+      state.paymentMethod = action.payload
+      return updateCart(state)
+    },
+    clearCart(state) {
+      state.cartItems = []
+      return updateCart(state)
+    },
   },
 })
-export const { addToCart } = cartSlice.actions
+export const { addToCart, removeItem, saveShippingAddress, savePaymentMethod, clearCart } =
+  cartSlice.actions
 export default cartSlice.reducer
