@@ -6,12 +6,18 @@ import {
   useGetPayPalClientIdQuery,
 } from './../slices/orderApiSlice'
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js'
+import { useSelector } from 'react-redux'
+import { useDeliverOrderMutation } from './../slices/orderApiSlice'
+
+import { toast } from 'react-toastify'
 
 function DetailsOrder() {
   const { id: orderId } = useParams()
+  const { userInfo } = useSelector((state) => state.auth)
 
   // Queries & Mutations
   const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId)
+  const [deliverOrder, { isLoading: deliveryIsLoading }] = useDeliverOrderMutation()
   const [payOrder, { isLoading: paymentIsLoading }] = usePayOrderMutation()
   const {
     data: paypal,
@@ -66,6 +72,16 @@ function DetailsOrder() {
       console.log('Test payment successful')
     } catch (err) {
       console.error(err)
+    }
+  }
+
+  const deliveryHandler = async () => {
+    try {
+      await deliverOrder(orderId)
+      refetch()
+      toast.success('Order delivered successfully')
+    } catch (error) {
+      toast.error(error?.data?.message || error.error) || toast.error('Delivery failed')
     }
   }
 
@@ -204,6 +220,16 @@ function DetailsOrder() {
               </div>
             )}
           </div>
+          {deliveryIsLoading && (
+            <div className="text-blue-500 animate-pulse">Processing Delivery...</div>
+          )}
+          {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+            <button
+              onClick={deliveryHandler}
+              className="bg-amber-400 p-4 w-[400px] mt-7 cursor-pointer">
+              DELIVER PLACE HOLDER BUTTON
+            </button>
+          )}
         </div>
       </div>
     </div>

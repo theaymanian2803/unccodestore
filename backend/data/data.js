@@ -231,7 +231,7 @@ const data = [
     numReviews: 120,
     description:
       'Pay homage to the Mamba Mentality. This Kobe Bryant Big Face Design features iconic gold and purple hues with a high-contrast, grit-heavy finish. With FULL PSD ACCESS, you can manipulate the legendary 24 aesthetics and signature textures. **Details:** Layered PSD with full control, high-res PNG/JPG exports, and professional lighting effects built-in.',
-    images: ['/images/cobe1.png', '/images/cobe2.png', '/images/cobe3.png'],
+    images: ['/images/cobe2.png', '/images/cobe1.png', '/images/cobe3.png'],
     whatsInside: [
       '8 High-resolution poster designs',
       '8 Color variants (Lakers Gold, Mamba Purple, Steel Blue, Electric Green)',
@@ -286,7 +286,7 @@ const data = [
     numReviews: 45,
     description:
       'The modern face of Boston. This Jayson Tatum Big Face Drop captures the sharp intensity of a champion. Featuring vibrant green lighting and deep shadow work, this design is perfect for elite sports apparel. FULL PSD ACCESS allows you to edit colors, text, and lighting layers to match your brand’s vibe.',
-    images: ['/images/face11.png', '/images/face111.png', '/images/face1111.png'],
+    images: ['/images/face111.png', '/images/face11.png', '/images/face1111.png'],
     whatsInside: [
       '8 High-resolution poster designs',
       '8 Color variants (Celtics Green, Neon Pink, Steel Blue, Purple Haze)',
@@ -340,7 +340,7 @@ const data = [
     numReviews: 200,
     description:
       'The Greatest of All Time. Evanox presents the MJ Big Face Design, featuring the legendary stare that defined an era. With FULL PSD ACCESS, you can control the classic Chicago red/black color palette and vintage textures. A must-have for high-end legacy collections.',
-    images: ['/images/jordan1.png', '/images/jordan2.png', '/images/jordan3.png'],
+    images: ['/images/jordan2.png', '/images/jordan1.png', '/images/jordan3.png'],
     whatsInside: [
       '8 High-resolution poster designs',
       '8 Color variants (Chicago Red, Bulls Black, Steel Blue, Electric Green)',
@@ -394,7 +394,7 @@ const data = [
     numReviews: 65,
     description:
       'Capture the artistry and enigma of Kyrie Irving. This Big Face Design features intricate detail and spiritual aesthetic overlays. Get FULL PSD ACCESS to modify the layered effects and experimental colorways. Perfect for creators looking to add a unique, soulful edge to their design projects.',
-    images: ['/images/k1.png', '/images/k2.png', '/images/k3.png'],
+    images: ['/images/k2.png', '/images/k1.JPG', '/images/k3.png'],
     whatsInside: [
       '8 High-resolution poster designs',
       '8 Color variants (Neon Pink, Electric Green, Purple Haze, Steel Blue)',

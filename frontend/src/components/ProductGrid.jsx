@@ -10,7 +10,7 @@ function ProductGrid(props) {
       className="flex flex-col cursor-pointer justify-center items-center container mx-auto">
       <div className="mt-5 ">
         {images && images.length > 0 && (
-          <img src={images[0]} alt="img" className="w-full h-full object-cover -ml-6" />
+          <img src={images[0]} alt="img" className="w-full h-full object-cover md:-ml-6" />
         )}
       </div>
       <div className="mt-2">

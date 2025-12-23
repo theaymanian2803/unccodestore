@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLoginMutation } from '../slices/userApiSlice'
 import { setInforForUser } from '../slices/authSlice'
@@ -13,7 +14,7 @@ const LoginForm = () => {
   const searchParams = new URLSearchParams(search)
   const redirect = searchParams.get('redirect') || '/'
 
-  const [login, { isLoading }] = useLoginMutation()
+  const [login, { isLoading, error }] = useLoginMutation()
   const { userInfo } = useSelector((state) => state.auth)
 
   const handleSubmit = async (e) => {
@@ -21,8 +22,10 @@ const LoginForm = () => {
     try {
       const res = await login({ email, password }).unwrap()
       dispatch(setInforForUser({ ...res }))
-    } catch (error) {
-      console.error(error?.data?.messge || error.message)
+      toast.success('logged in successfully')
+    } catch (err) {
+      const checkError = err?.data?.messge || err?.error || 'email or password is incorrect'
+      toast.error(checkError)
     }
   }
   useEffect(() => {
@@ -46,7 +49,7 @@ const LoginForm = () => {
               EMAIL
             </label>
             <input
-              type="text"
+              type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}

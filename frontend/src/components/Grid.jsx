@@ -1,19 +1,8 @@
 import ProductGrid from './ProductGrid'
-import { useGetProductsQuery } from './../slices/productSlice'
 
-function Grid() {
-  const { data: products, isLoading, error } = useGetProductsQuery()
-
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>
-  }
-
+function Grid({ products }) {
   return (
-    <div className=" mt-8 p-7 grid grid-cols-4 gap-4">
+    <div className=" md:mt-8 p-7 grid sm:grid-cols-2 md:grid-cols-4 gap-4">
       {products.map((product) => (
         <ProductGrid key={product._id} product={product} />
       ))}

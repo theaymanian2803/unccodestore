@@ -22,41 +22,40 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    artist_name: { type: String, required: true },
+    artist_name: { type: String },
     brand: { type: String, required: true },
-    category: { type: String },
-
+    category: { type: String, required: true },
     price: { type: Number, required: true },
-    instock: { type: String, required: true },
+    instock: { type: String },
     countInStock: { type: Number, required: true, default: 0 },
 
     reviews: [reviewSchema],
-    rating: { type: Number, required: true, default: 0 },
-    numReviews: { type: Number, required: true, default: 0 },
+    rating: { type: Number, default: 0 },
+    numReviews: { type: Number, default: 0 },
 
-    description: { type: String, required: true },
+    description: { type: String },
     images: [{ type: String }],
     whatsInside: [{ type: String }],
-    perfectFor: { type: String, required: true },
-    format: { type: String, required: true },
-    license: { type: String, required: true },
+    perfectFor: { type: String },
+    format: { type: String },
+    license: { type: String },
 
     otherFeatures: [
       {
-        title: { type: String, required: true },
-        text: { type: String, required: true },
-        icon: { type: String, required: true },
+        title: { type: String },
+        text: { type: String },
+        icon: { type: String },
       },
     ],
 
     lifetimeAccess: {
-      title: { type: String, required: true },
-      text: { type: String, required: true },
+      title: { type: String },
+      text: { type: String },
     },
 
     programCompatibility: {
-      title: { type: String, required: true },
-      text: { type: String, required: true },
+      title: { type: String },
+      text: { type: String },
     },
   },
   {

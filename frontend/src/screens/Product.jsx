@@ -111,10 +111,10 @@ function Product() {
               {product.otherFeatures?.map((feature, index) => (
                 <div key={index}>
                   <h3 className="text-lg font-bold mb-2 flex  items-center">
-                    <span className="mr-2 text-yellow-500"> {feature.icon}</span>
-                    {feature.title}
+                    <span className="mr-2 text-yellow-500"> {feature?.icon}</span>
+                    {feature?.title}
                   </h3>
-                  <p className="text-gray-300">{feature.text}</p>
+                  <p className="text-gray-300">{feature?.text}</p>
                 </div>
               ))}
             </div>
@@ -125,15 +125,15 @@ function Product() {
             {/* program compatibilities */}
             <div className="grid grid-cols-2 gap-7 text-sm">
               <div>
-                <h3 className="text-lg font-bold mb-1">{product.lifetimeAccess.title}</h3>
-                <p>{product.lifetimeAccess.text}</p>
+                <h3 className="text-lg font-bold mb-1">{product?.lifetimeAccess?.title}</h3>
+                <p>{product?.lifetimeAccess?.text}</p>
               </div>
               <div>
-                <h3 className="text-lg font-bold mb-1">{product.programCompatibility.title}</h3>
+                <h3 className="text-lg font-bold mb-1">{product?.programCompatibility?.title}</h3>
                 <p
                   className="text-gray-400"
                   dangerouslySetInnerHTML={{
-                    __html: product.programCompatibility.text.replace(
+                    __html: product?.programCompatibility?.text.replace(
                       /\*\*(.*?)\*\*/g,
                       '<strong>$1</strong>'
                     ),
