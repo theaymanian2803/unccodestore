@@ -10,21 +10,20 @@ import {
   useDeliverOrderMutation,
 } from './../slices/orderApiSlice'
 
-// A "Glowing" Status Badge for black backgrounds
 const StatusIndicator = ({ condition, trueText, falseText, date }) => (
   <div
-    className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border ${
+    className={`flex items-center gap-4 px-6 py-4 rounded-none border-2 ${
       condition
         ? 'bg-emerald-500/5 border-emerald-500/20 text-emerald-400'
-        : 'bg-amber-500/5 border-amber-500/20 text-amber-400'
+        : 'bg-orange-600/5 border-orange-600/20 text-orange-500'
     }`}>
     <div
-      className={`w-2 h-2 rounded-full shadow-[0_0_8px_currentColor] ${
-        condition ? 'bg-emerald-400' : 'bg-amber-400'
+      className={`w-3 h-3 rounded-full shadow-[0_0_12px_currentColor] ${
+        condition ? 'bg-emerald-400' : 'bg-orange-500'
       }`}
     />
-    <span className="text-xs font-bold uppercase tracking-wider">
-      {condition ? `${trueText} ${date?.substring(0, 10)}` : falseText}
+    <span className="text-sm font-black uppercase tracking-[0.3em]">
+      {condition ? `${trueText} // ${date?.substring(0, 10)}` : falseText}
     </span>
   </div>
 )
@@ -61,7 +60,7 @@ function DetailsOrder() {
       try {
         await payOrder({ orderId, details })
         refetch()
-        toast.success('Payment Received')
+        toast.success('PAYMENT VERIFIED')
       } catch (err) {
         toast.error(err?.data?.message || err.error)
       }
@@ -72,123 +71,138 @@ function DetailsOrder() {
     try {
       await deliverOrder(orderId)
       refetch()
-      toast.success('Order Marked as Delivered')
+      toast.success('ASSET DISPATCHED')
     } catch (error) {
-      toast.error(error?.data?.message || 'Delivery update failed')
+      toast.error(error?.data?.message || 'Update failed')
     }
   }
 
   if (isLoading)
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center text-zinc-500 font-mono tracking-widest uppercase italic">
-        Loading System...
+      <div className="min-h-screen bg-black flex items-center justify-center text-white font-black tracking-[1em] uppercase animate-pulse text-4xl italic">
+        SYNCING_SYSTEM...
       </div>
     )
+
   if (error)
     return (
-      <div className="min-h-screen bg-black p-10 text-red-500 font-bold">
-        {error?.data?.message || error.error}
+      <div className="min-h-screen bg-black flex items-center justify-center p-10 text-orange-600 font-black text-3xl uppercase tracking-tighter">
+        ERROR // {error?.data?.message || error.error}
       </div>
     )
 
   return (
-    <div className="bg-black min-h-screen text-white pb-20 selection:bg-indigo-500/30">
-      <div className="container mx-auto p-4 md:p-8 max-w-7xl">
-        {/* Header - Minimalist */}
-        <div className="mb-12">
+    <div className="bg-black min-h-screen text-white pb-32 selection:bg-orange-600/50">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-10">
+        {/* --- MEGA HEADER --- */}
+        <div className="py-16 border-b-2 border-zinc-900 mb-16">
           <Link
-            to="/orders"
-            className="text-zinc-500 hover:text-white text-xs font-bold uppercase tracking-[0.2em] transition flex items-center mb-6">
-            <span className="mr-2">←</span> Return to History
+            to="/admin/orderlist"
+            className="text-zinc-600 hover:text-white text-xs font-black uppercase tracking-[0.4em] transition flex items-center mb-10">
+            <span className="mr-4 text-xl">←</span> BACK TO ARCHIVE
           </Link>
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+
+          <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-10">
             <div>
-              <h1 className="text-4xl font-black tracking-tighter mb-2">
-                Order <span className="text-indigo-500">Overview</span>
+              <h1 className="text-4xl md:text-5xl lg:text-9xl font-black tracking-tighter leading-[0.85] uppercase italic">
+                ORDER <br />
+                <span className="text-orange-600">MANIFEST</span>
               </h1>
-              <p className="font-mono text-zinc-500 text-lg tracking-tight">REF_ID: {order._id}</p>
+              <p className="font-mono text-zinc-500 text-xl tracking-tighter mt-6">
+                ID_CORE: {order?._id}
+              </p>
             </div>
-            <div className="flex flex-wrap gap-3 ">
+
+            <div className="flex flex-col gap-4 min-w-[300px]">
               <StatusIndicator
-                condition={order.isPaid}
-                trueText="Verified"
-                falseText="Unpaid"
-                date={order.paidAt}
-                className="text-2xl"
+                condition={order?.isPaid}
+                trueText="TRANSACTION_VERIFIED"
+                falseText="AWAITING_FUNDS"
+                date={order?.paidAt}
               />
               <StatusIndicator
-                condition={order.isDelivered}
-                trueText="Shipped"
-                falseText="Processing"
-                date={order.deliveredAt}
-                className="text-2xl"
+                condition={order?.isDelivered}
+                trueText="ASSET_DISPATCHED"
+                falseText="PREPARING_SHIPMENT"
+                date={order?.deliveredAt}
               />
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          {/* Main Content Column */}
-          <div className="lg:col-span-2 space-y-10">
-            {/* Logistic & Payment Details */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-zinc-900/30 border border-zinc-800/50 p-8 rounded-2xl backdrop-blur-sm">
-              <div className="space-y-4">
-                <h3 className="text-zinc-500 text-xl font-black uppercase tracking-widest">
-                  Shipment To
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+          {/* LEFT: INFORMATION ARCHITECTURE */}
+          <div className="lg:col-span-8 space-y-20">
+            {/* Logistics Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <div className="space-y-6">
+                <h3 className="text-orange-600 text-sm font-black uppercase tracking-[0.4em]">
+                  RECIPIENT_DATA
                 </h3>
-                <div className="space-y-1">
-                  <p className="text-2xl  tracking-tight font-bold">{order.user.name}</p>
-                  <p className="text-zinc-400 text-2xl">{order.user.email}</p>
-                  <p className="text-zinc-400 text-2xl pt-2 leading-relaxed">
-                    {order.shippingAddress.address}, {order.shippingAddress.city}
-                    <br />
-                    {order.shippingAddress.postalCode}, {order.shippingAddress.country}
+                <div className="space-y-2">
+                  <p className="text-4xl font-black uppercase tracking-tighter">
+                    {order?.user?.name || 'UNRESOLVED_USER'}
                   </p>
+                  <p className="text-zinc-500 text-xl font-medium">
+                    {order?.user?.email || 'NO_EMAIL_FOUND'}
+                  </p>
+                  <div className="text-zinc-400 text-xl pt-4 leading-tight uppercase font-bold">
+                    {order?.shippingAddress?.address}
+                    <br />
+                    {order?.shippingAddress?.city}, {order?.shippingAddress?.postalCode}
+                    <br />
+                    {order?.shippingAddress?.country}
+                  </div>
                 </div>
               </div>
-              <div className="space-y-4 border-t md:border-t-0 md:border-l border-zinc-800/50 pt-6 md:pt-0 md:pl-8">
-                <h3 className="text-zinc-500 text-xl font-black uppercase tracking-widest">
-                  Payment Info
+
+              <div className="space-y-6 md:border-l-2 md:border-zinc-900 md:pl-12">
+                <h3 className="text-orange-600 text-sm font-black uppercase tracking-[0.4em]">
+                  GATEWAY_METHOD
                 </h3>
-                <div className="space-y-1">
-                  <p className="text-2xl font-bold">{order.paymentMethod}</p>
+                <div className="space-y-2">
+                  <p className="text-4xl font-black uppercase tracking-tighter">
+                    {order?.paymentMethod}
+                  </p>
                   <p
-                    className={`text-xl font-bold ${
-                      order.isPaid ? 'text-emerald-400' : 'text-amber-400'
+                    className={`text-xl font-black italic uppercase ${
+                      order?.isPaid ? 'text-emerald-400' : 'text-orange-500'
                     }`}>
-                    {order.isPaid ? 'Transaction Completed' : 'Waiting for payment...'}
+                    {order?.isPaid ? '// FUNDS_SECURED' : '// AUTHORIZATION_PENDING'}
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Item Manifest */}
-            <div className="space-y-6">
-              <h2 className="text-xs font-black uppercase tracking-[0.3em] text-zinc-500 border-b border-zinc-800 pb-4">
-                Manifest
+            <div className="space-y-10">
+              <h2 className="text-sm font-black uppercase tracking-[0.5em] text-zinc-700 border-b-2 border-zinc-900 pb-6">
+                ASSET_LISTING
               </h2>
-              <div className="divide-y divide-zinc-900">
-                {order.orderItems.map((item, index) => (
-                  <div key={index} className="py-6 flex items-center gap-6 group">
-                    <div className="relative overflow-hidden rounded-xl bg-zinc-900 border border-zinc-800 shrink-0">
+              <div className="divide-y-2 divide-zinc-900">
+                {order?.orderItems.map((item, index) => (
+                  <div
+                    key={index}
+                    className="py-10 flex flex-col sm:flex-row sm:items-center gap-10 group">
+                    <div className="relative overflow-hidden bg-zinc-900 shrink-0 w-32 h-32">
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="w-20 h-20 object-cover opacity-80 group-hover:opacity-100 transition duration-500"
+                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-100"
                       />
                     </div>
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1">
                       <Link
                         to={`/product/${item.product}`}
-                        className="text-lg font-bold hover:text-indigo-400 transition truncate block">
+                        className="text-3xl font-black uppercase tracking-tighter hover:text-orange-600 transition-colors block leading-none mb-2">
                         {item.name}
                       </Link>
-                      <p className="text-zinc-500 font-mono text-xl mt-1">
-                        QTY: {item.qty} &times; ${item.price}
+                      <p className="text-zinc-500 font-black text-xl italic uppercase tracking-widest">
+                        UNITS: {item.qty} &times; ${item.price}
                       </p>
                     </div>
-                    <div className="text-right">
-                      <p className="font-bold text-xl tracking-tighter text-white">
+                    <div className="text-left sm:text-right">
+                      <p className="font-black text-4xl tracking-tighter text-white italic">
                         ${(item.qty * item.price).toFixed(2)}
                       </p>
                     </div>
@@ -198,45 +212,45 @@ function DetailsOrder() {
             </div>
           </div>
 
-          {/* Checkout/Sidebar Column */}
-          <div className="lg:col-span-1">
-            <div className="bg-white text-black p-8 rounded-2xl sticky top-8 shadow-[0_20px_50px_rgba(255,255,255,0.05)] border border-white">
-              <h2 className="text-2xl font-black tracking-tighter mb-8 border-b border-zinc-100 pb-4">
-                Final Statement
+          {/* RIGHT: FINANCIAL SUMMARY */}
+          <div className="lg:col-span-4">
+            <div className="bg-white text-black p-10 sticky top-10 shadow-[20px_20px_0px_rgba(234,88,12,1)]">
+              <h2 className="text-4xl font-black uppercase tracking-tighter mb-10 border-b-4 border-black pb-4 italic">
+                TOTAL_COST
               </h2>
 
-              <div className="space-y-4 font-medium text-zinc-600">
-                <div className="flex justify-between">
-                  <span>Subtotal</span>
-                  <span className="text-black font-bold">${order.itemsPrice.toFixed(2)}</span>
+              <div className="space-y-6 text-xl font-bold uppercase tracking-tight">
+                <div className="flex justify-between text-zinc-500">
+                  <span>SUBTOTAL</span>
+                  <span className="text-black font-black">${order?.itemsPrice.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Shipping</span>
-                  <span className="text-black font-bold">${order.shippingPrice.toFixed(2)}</span>
+                <div className="flex justify-between text-zinc-500">
+                  <span>LOGISTICS</span>
+                  <span className="text-black font-black">${order?.shippingPrice.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Estimated Tax</span>
-                  <span className="text-black font-bold">${order.taxPrice.toFixed(2)}</span>
+                <div className="flex justify-between text-zinc-500">
+                  <span>TAX_ID</span>
+                  <span className="text-black font-black">${order?.taxPrice.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between pt-6 border-t border-zinc-200 mt-6">
-                  <span className="text-black font-black text-xl">Total</span>
-                  <span className="text-black font-black text-3xl tracking-tighter">
-                    ${order.totalPrice.toFixed(2)}
+                <div className="flex justify-between pt-8 border-t-4 border-black mt-8">
+                  <span className="text-black font-black text-2xl">FINAL</span>
+                  <span className="text-black font-black text-5xl tracking-tighter italic">
+                    ${order?.totalPrice.toFixed(2)}
                   </span>
                 </div>
               </div>
 
-              {!order.isPaid && (
-                <div className="mt-10 space-y-4">
+              {!order?.isPaid && (
+                <div className="mt-12 space-y-6">
                   {isPending ? (
-                    <div className="h-[150px] bg-zinc-50 animate-pulse rounded-xl flex items-center justify-center text-[10px] font-black uppercase tracking-widest text-zinc-400">
-                      Syncing Gateway...
+                    <div className="h-24 bg-zinc-100 flex items-center justify-center text-xs font-black uppercase tracking-[0.3em] text-zinc-400 animate-pulse">
+                      HANDSHAKE_IN_PROGRESS...
                     </div>
                   ) : (
                     <div className="min-h-[150px]">
                       {paymentIsLoading && (
-                        <div className="text-xs font-bold text-indigo-600 mb-2 animate-pulse uppercase">
-                          Authorization in progress...
+                        <div className="text-xs font-black text-orange-600 mb-4 animate-bounce uppercase tracking-widest">
+                          ENCRYPTING_TRANSACTION...
                         </div>
                       )}
                       <PayPalButtons
@@ -246,34 +260,24 @@ function DetailsOrder() {
                           })
                         }
                         onApprove={onApprove}
-                        style={{
-                          layout: 'vertical',
-                          color: 'black',
-                          shape: 'rect',
-                          label: 'checkout',
-                        }}
+                        style={{ layout: 'vertical', color: 'black', shape: 'rect', label: 'pay' }}
                       />
                     </div>
                   )}
                 </div>
               )}
 
-              {/* Admin Actions Container */}
-              {userInfo?.isAdmin && order.isPaid && !order.isDelivered && (
-                <div className="mt-8 pt-6 border-t border-zinc-200">
+              {userInfo?.isAdmin && order?.isPaid && !order?.isDelivered && (
+                <div className="mt-10 pt-10 border-t-2 border-zinc-100">
                   <button
                     onClick={deliveryHandler}
                     disabled={deliveryIsLoading}
-                    className="w-full bg-black text-white font-black py-4 rounded-xl hover:bg-zinc-800 transition-all active:scale-[0.98] disabled:opacity-50 uppercase tracking-widest text-xs">
-                    {deliveryIsLoading ? 'Processing...' : 'Mark as Dispatched'}
+                    className="w-full bg-black text-white font-black py-8 text-xl hover:bg-orange-600 transition-all uppercase tracking-widest italic disabled:opacity-50">
+                    {deliveryIsLoading ? 'PROCESSING...' : 'DISPATCH_ASSET'}
                   </button>
                 </div>
               )}
             </div>
-
-            <p className="text-center text-zinc-600 text-[10px] mt-6 font-bold uppercase tracking-[0.2em] px-4">
-              Secure Checkout • Encrypted Transaction
-            </p>
           </div>
         </div>
       </div>
