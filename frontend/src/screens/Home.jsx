@@ -1,10 +1,10 @@
 import React from 'react'
 import Hero from './../components/Hero'
 import Grid from './../components/Grid'
-import { useGetProductsQuery } from './../slices/productSlice'
+import { useGetProductsForHomeQuery } from './../slices/productSlice'
 
 function Home() {
-  const { data: products, isLoading, error } = useGetProductsQuery()
+  const { data: products, isLoading, error } = useGetProductsForHomeQuery()
 
   if (isLoading) {
     return <div className="text-white p-10">Loading...</div>

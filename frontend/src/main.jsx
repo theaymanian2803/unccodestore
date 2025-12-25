@@ -59,6 +59,10 @@ const router = createBrowserRouter([
         element: <Store />,
       },
       {
+        path: '/store/page/:pageNumber',
+        element: <Store />,
+      },
+      {
         path: '/services',
         element: <Services />,
       },

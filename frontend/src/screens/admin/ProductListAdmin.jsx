@@ -6,11 +6,12 @@ import {
   useGetProductsQuery,
   useCreateProductMutation,
   useDeleteProductMutation,
+  useGetProductsForHomeQuery,
 } from '../../slices/productSlice'
 
 function ProductListAdmin() {
   // 1. Hook Definitions
-  const { data: products, isLoading, error, refetch } = useGetProductsQuery()
+  const { data: products, isLoading, error, refetch } = useGetProductsForHomeQuery()
   const [createProduct, { isLoading: loadingCreate }] = useCreateProductMutation()
   const [deleteProduct, { isLoading: loadingDelete }] = useDeleteProductMutation()
 
