@@ -99,7 +99,7 @@ const Navbar = () => {
               </Link>
               {isAdminOpen && (
                 <div className="absolute  top-9 flex flex-col justify-start items-start bg-white text-black w-40 h-[130px] ">
-                  <Link to="/admin/orders" className=" p-2  text-xl capitalize">
+                  <Link to="/admin/orderlistadmin" className=" p-2  text-xl capitalize">
                     orders
                   </Link>
                   <Link to="/admin/users" className=" p-2  text-xl capitalize">

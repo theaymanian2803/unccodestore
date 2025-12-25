@@ -2,16 +2,28 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { SquarePen, Trash, Plus } from 'lucide-react'
 import { toast } from 'react-toastify'
-import { useGetProductsQuery, useCreateProductMutation } from '../../slices/productSlice'
+import {
+  useGetProductsQuery,
+  useCreateProductMutation,
+  useDeleteProductMutation,
+} from '../../slices/productSlice'
 
 function ProductListAdmin() {
   // 1. Hook Definitions
   const { data: products, isLoading, error, refetch } = useGetProductsQuery()
   const [createProduct, { isLoading: loadingCreate }] = useCreateProductMutation()
+  const [deleteProduct, { isLoading: loadingDelete }] = useDeleteProductMutation()
 
   // 2. Action Handlers
   const deleteHandler = (id) => async (e) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
+      try {
+        await deleteProduct(id).unwrap()
+        refetch()
+        toast.success('Product deleted successfully')
+      } catch (error) {
+        toast.error(error?.data?.message || error.message || 'Failed to delete product')
+      }
     }
   }
 
@@ -49,6 +61,7 @@ function ProductListAdmin() {
   return (
     <div className="bg-black min-h-screen text-white pb-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {loadingDelete && 'Deleting...'}
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-8 gap-4">
           <div>
