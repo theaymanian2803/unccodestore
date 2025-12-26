@@ -23,9 +23,10 @@ const LoginForm = () => {
       const res = await register({ name, email, password }).unwrap()
       dispatch(setInforForUser({ ...res }))
     } catch (error) {
-      console.error(error?.data?.messge || error.message)
+      console.error(error?.data?.message || error.message)
     }
   }
+
   useEffect(() => {
     if (userInfo) {
       navigate(redirect)
@@ -33,81 +34,109 @@ const LoginForm = () => {
   }, [navigate, redirect, userInfo])
 
   return (
-    // Outer container: Dark background, centered content
-    <div className="min-h-[700px] bg-black flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-gray-800/20 p-8 md:p-10 rounded-lg shadow-2xl">
-        {/* Welcome Header */}
-        <h1 className="text-4xl font-bold text-white mb-8 text-center">Welcome back!</h1>
+    <div className="min-h-screen bg-black flex items-center justify-center p-6 antialiased relative overflow-hidden">
+      {/* Background Decorative Glow */}
+      <div className="absolute top-1/4 -right-20 w-96 h-96 bg-orange-500/10 blur-[120px] rounded-full"></div>
+      <div className="absolute bottom-1/4 -left-20 w-96 h-96 bg-orange-500/10 blur-[120px] rounded-full"></div>
 
-        {/* --- Login Form --- */}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Email Field */}
-          <div>
-            <label htmlFor="email" className="block text-lg font-medium text-gray-300 mb-2">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your email"
-              className="w-full px-4 py-3 bg-gray-900 text-white border-2 rounded-lg 
-                          focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg "
-            />
-          </div>
-          <div>
-            <label htmlFor="email" className="block text-lg font-medium text-gray-300 mb-2">
-              EMAIL
-            </label>
-            <input
-              type="text"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="w-full px-4 py-3 bg-gray-900 text-white border-2 rounded-lg 
-                          focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg "
-            />
+      <div className="w-full max-w-md z-10">
+        <div className="bg-[#0A0A0A] border border-zinc-800 p-10 shadow-2xl relative">
+          {/* Header */}
+          <div className="mb-10 text-center">
+            <h1 className="text-4xl font-black uppercase tracking-tighter text-white">
+              Create <span className="text-orange-500 italic">Account</span>
+            </h1>
+            <div className="h-1 w-12 bg-orange-500 mx-auto mt-3"></div>
           </div>
 
-          {/* Password Field */}
-          <div>
-            <label htmlFor="password" className="block text-lg font-medium text-gray-300 mb-2">
-              PASSWORD
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              className="w-full px-4 py-3 bg-gray-900 text-white border-2 rounded-lg  text-lg
-                          focus:outline-none focus:ring-2 focus:ring-blue-500 "
-            />
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Name Field */}
+            <div className="flex flex-col">
+              <label
+                htmlFor="name"
+                className="text-[10px] uppercase tracking-[0.3em] font-bold text-zinc-500 mb-2">
+                Full Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="John Doe"
+                className="bg-zinc-900/50 border border-zinc-800 p-4 text-white focus:outline-none focus:border-orange-500 transition-all duration-300 text-sm"
+                required
+              />
+            </div>
+
+            {/* Email Field */}
+            <div className="flex flex-col">
+              <label
+                htmlFor="email"
+                className="text-[10px] uppercase tracking-[0.3em] font-bold text-zinc-500 mb-2">
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="name@example.com"
+                className="bg-zinc-900/50 border border-zinc-800 p-4 text-white focus:outline-none focus:border-orange-500 transition-all duration-300 text-sm"
+                required
+              />
+            </div>
+
+            {/* Password Field */}
+            <div className="flex flex-col">
+              <label
+                htmlFor="password"
+                className="text-[10px] uppercase tracking-[0.3em] font-bold text-zinc-500 mb-2">
+                Create Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className="bg-zinc-900/50 border border-zinc-800 p-4 text-white focus:outline-none focus:border-orange-500 transition-all duration-300 text-sm"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-4 bg-white text-black text-xs font-black uppercase tracking-[0.2em] hover:bg-orange-500 hover:text-white transition-all duration-300 shadow-lg active:scale-95 disabled:opacity-50 mt-4">
+              {isLoading ? 'Creating Account...' : 'Register'}
+            </button>
+          </form>
+
+          {/* Divider */}
+          <div className="relative my-10">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-zinc-800"></div>
+            </div>
+            <div className="relative flex justify-center text-[10px] uppercase tracking-widest">
+              <span className="bg-[#0A0A0A] px-4 text-zinc-600">Already a member?</span>
+            </div>
           </div>
 
-          <button
-            type="submit"
-            className="w-full py-3 mt-4 text-sm font-semibold tracking-wider bg-white text-gray-900 rounded-lg transition duration-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900">
-            register
-          </button>
-        </form>
-
-        {/* Divider Line */}
-        <hr className="my-8 border-gray-700" />
-
-        {/* New Customer Section */}
-        <div className="text-center">
-          <h2 className="text-2xl font-semibold text-white mb-4">already have an account</h2>
-
-          {/* Create Account Button (Links to Register) */}
-          <Link
-            to={redirect ? `/login?redirect=${redirect}` : '/login'}
-            className="w-full py-3 text-sm font-semibold tracking-wider border-2 border-white text-white rounded-lg transition duration-200 hover:bg-white hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 p-4">
-            login
-          </Link>
+          {/* Login Section */}
+          <div className="text-center">
+            <Link
+              to={redirect ? `/login?redirect=${redirect}` : '/login'}
+              className="group flex items-center justify-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-white hover:text-orange-500 transition-colors duration-300">
+              Login to Evanox
+              <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
+            </Link>
+          </div>
         </div>
+
+        {/* Footer Note */}
+        <p className="mt-8 text-center text-zinc-600 text-[9px] uppercase tracking-[0.2em]">
+          Join the Collection • Evanox Boutique
+        </p>
       </div>
     </div>
   )
