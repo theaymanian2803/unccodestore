@@ -22,20 +22,20 @@ connectDB()
 const app = express()
 const port = process.env.PORT || 5000
 
-// 1. Essential Middleware
+// 1. GLOBAL MIDDLEWARE
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
-// 2. CORS Configuration
-// In production, we restrict origins for better security
-const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' ? false : 'http://localhost:5173',
-  credentials: true,
-}
-app.use(cors(corsOptions))
+// CORS Logic
+app.use(
+  cors({
+    origin: process.env.NODE_ENV === 'production' ? false : 'http://localhost:5173',
+    credentials: true,
+  })
+)
 
-// 3. API Routes
+// 2. API ROUTES
 app.use('/api/products', productRouter)
 app.use('/api/users', userRouter)
 app.use('/api/orders', ordersRouter)
@@ -47,23 +47,31 @@ app.get('/api/config/paypal', (req, res) => {
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
 })
 
-// 4. Static and Production Handling
+// 3. STATIC FILES & PRODUCTION LOGIC
 const __dirname = path.resolve()
+
+// Static folder for uploaded images
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 if (process.env.NODE_ENV === 'production') {
   const distPath = path.join(__dirname, '/frontend/dist')
 
+  // Serve the frontend build files
   app.use(express.static(distPath))
 
-  // In Express 5, you must name the wildcard parameter.
-  // We use ':index*' to capture everything and serve index.html.
-  app.get('/:index*', (req, res) => {
+  // EXPRESS 5 BULLETPROOF FIX:
+  // We use a Regular Expression literal to match everything.
+  // This bypasses the 'path-to-regexp' parameter naming requirement.
+  app.get(/^((?!\/api).)*$/, (req, res) => {
     res.sendFile(path.resolve(distPath, 'index.html'))
+  })
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running...')
   })
 }
 
-// 5. Error Handling (Must be last)
+// 4. ERROR HANDLING (Must be after all routes)
 app.use(notFound)
 app.use(errorHandler)
 
