@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
 // 2. CORS Configuration
-// In production, you might want to restrict this to your domain
+// In production, we restrict origins for better security
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' ? false : 'http://localhost:5173',
   credentials: true,
@@ -47,28 +47,23 @@ app.get('/api/config/paypal', (req, res) => {
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
 })
 
-// 4. Static File Handling
+// 4. Static and Production Handling
 const __dirname = path.resolve()
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 if (process.env.NODE_ENV === 'production') {
   const distPath = path.join(__dirname, '/frontend/dist')
 
-  // Serve static assets from the build folder
   app.use(express.static(distPath))
 
-  // FIX: Catch-all route for Single Page Application (SPA)
-  // Using path-to-regexp compatible syntax for Express 5+
-  app.get('*', (req, res) => {
+  // In Express 5, you must name the wildcard parameter.
+  // We use ':index*' to capture everything and serve index.html.
+  app.get('/:index*', (req, res) => {
     res.sendFile(path.resolve(distPath, 'index.html'))
-  })
-} else {
-  app.get('/', (req, res) => {
-    res.send('API is running...')
   })
 }
 
-// 5. Error Handling (Must be after routes)
+// 5. Error Handling (Must be last)
 app.use(notFound)
 app.use(errorHandler)
 
