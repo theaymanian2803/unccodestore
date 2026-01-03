@@ -6,9 +6,21 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
-    host: true, // This exposes the server to the network
+    host: true, // Exposes the server to the network
     proxy: {
-      '/uploads': 'http://localhost:5000', // <--- ADD THIS LINE
+      '/uploads': 'http://localhost:5000',
+    },
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            // This splits your libraries into separate files instead of one giant bundle
+            return id.toString().split('node_modules/')[1].split('/')[0].toString()
+          }
+        },
+      },
     },
   },
 })
