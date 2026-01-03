@@ -34,7 +34,7 @@ function Hero() {
         <div className="hidden md:block relative animate-float">
           <div className="absolute inset-0 bg-orange-500/5 blur-[80px] rounded-full"></div>
           <img
-            src="/ex.png"
+            src="/images/ex.png"
             alt="hero"
             className="relative w-[350px] lg:w-[450px] h-auto object-contain drop-shadow-2xl"
           />

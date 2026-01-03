@@ -30,7 +30,7 @@ function Footer() {
         <div className="space-y-8 sm:max-w-md sm:mx-auto sm:text-center">
           {/* Logo with slight glow */}
           <img
-            src="/ex.png"
+            src="/images/ex.png"
             className="w-40 sm:mx-auto drop-shadow-[0_0_8px_rgba(249,115,22,0.2)]"
             alt="Evanox Logo"
           />
