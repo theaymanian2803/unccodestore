@@ -62,7 +62,7 @@ if (process.env.NODE_ENV === 'production') {
   // EXPRESS 5 BULLETPROOF FIX:
   // We use a Regular Expression literal to match everything.
   // This bypasses the 'path-to-regexp' parameter naming requirement.
-  app.get(/^((?!\/api).)*$/, (req, res) => {
+  app.get(/^(?!\/api).+/, (req, res) => {
     res.sendFile(path.resolve(distPath, 'index.html'))
   })
 } else {
