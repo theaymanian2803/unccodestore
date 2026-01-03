@@ -30,6 +30,9 @@ import OrderListAdmin from './screens/admin/OrderListAdmin'
 import EditProductScreen from './screens/admin/EditProductScreen'
 import UsersAdminScreen from './screens/admin/UsersAdminScreen'
 import UserListAdmin from './screens/admin/UserListAdmin'
+import ContactAdmin from './screens/ContactAdmin'
+import ComponentScreen from './screens/ComponentScreen'
+import ComponentAdmin from './screens/admin/ComponentAdmin'
 
 // Create a router
 const router = createBrowserRouter([
@@ -51,15 +54,39 @@ const router = createBrowserRouter([
         element: <Cart />,
       },
       {
+        path: '/Contact',
+        element: <ContactAdmin />,
+      },
+      {
         path: '/login',
         element: <LoginPage />,
+      },
+      {
+        path: '/components',
+        element: <ComponentScreen />,
       },
       {
         path: '/store',
         element: <Store />,
       },
       {
+        path: '/store',
+        element: <Store />,
+      },
+      {
+        path: '/store',
+        element: <Store />,
+      },
+      {
+        path: '/search/:keyword',
+        element: <Store />,
+      },
+      {
         path: '/store/page/:pageNumber',
+        element: <Store />,
+      },
+      {
+        path: '/search/:keyword/page/:pageNumber',
         element: <Store />,
       },
       {
@@ -128,6 +155,10 @@ const router = createBrowserRouter([
           {
             path: 'admin/user/:id/edit',
             element: <UserListAdmin />,
+          },
+          {
+            path: 'admin/components',
+            element: <ComponentAdmin />,
           },
         ],
       },

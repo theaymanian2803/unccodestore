@@ -41,7 +41,9 @@ function Hero() {
         </div>
       </div>
 
-      <style jsx>{`
+      {/* REMOVED 'jsx' ATTRIBUTE TO FIX ERROR */}
+      <style>
+        {`
         @keyframes float {
           0%,
           100% {
@@ -54,7 +56,8 @@ function Hero() {
         .animate-float {
           animation: float 5s ease-in-out infinite;
         }
-      `}</style>
+      `}
+      </style>
     </div>
   )
 }

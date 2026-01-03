@@ -144,6 +144,11 @@ const Navbar = () => {
                           className="flex items-center px-4 py-3 text-sm hover:bg-white/5 transition-colors">
                           Products
                         </Link>
+                        <Link
+                          to="/admin/components"
+                          className="flex items-center px-4 py-3 text-sm hover:bg-white/5 transition-colors">
+                          components
+                        </Link>
                       </>
                     )}
 
@@ -161,7 +166,7 @@ const Navbar = () => {
             <Link to="/cart" className="relative p-2 group">
               <ShoppingBag className="w-6 h-6 group-hover:text-orange-400 transition-colors" />
               {cartCount > 0 && (
-                <span className="absolute -top-0 -right-0 bg-orange-500 text-black text-[10px] font-bold h-5 w-5 rounded-full flex items-center justify-center border-2 border-black">
+                <span className="absolute top-0 right-0 bg-orange-500 text-black text-[10px] font-bold h-5 w-5 rounded-full flex items-center justify-center border-2 border-black">
                   {cartCount}
                 </span>
               )}
